@@ -10,7 +10,6 @@
 
 #include <iostream>
 
-
   struct particle // index of a particle in the swarm and its fitness
   {
         int index;
