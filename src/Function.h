@@ -15,7 +15,7 @@ public:
 	virtual ~Function();
 
 	double rosenbrock(std::vector<double>&, unsigned int);
-	double ackley(std::vector<double>);
+	double ackley(std::vector<double>&);
 };
 
 

@@ -10,10 +10,6 @@
 #include <cmath>
 #include <vector>
 
-
-Function::Function() {
-}
-
 Function::~Function() {
 }
 
