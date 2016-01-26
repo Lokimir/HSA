@@ -6,9 +6,10 @@
  */
 
 #include "Function.h"
-
+#include <iostream>
 #include <cmath>
 #include <vector>
+#include <stdlib.h>
 
 Function::~Function() {
 }
@@ -46,5 +47,18 @@ double Function::ackley(std::vector<double>& solution){
 	double resultat=0;
 
 	resultat= -a*exp(expr1)-exp(expr2)+a+exp(1);
+	return resultat;
+}
+double Function::schwefel(std::vector<double>& solution){
+
+	unsigned int d= solution.size();
+	double sum1=0;
+	for(int i=1;i<=d;i++)
+	{
+		double d=solution[i];
+		sum1=sum1+d*sin(sqrt(abs(d)));
+	}
+	double resultat=0;
+	resultat=418.9829*d-(sum1);
 	return resultat;
 }
