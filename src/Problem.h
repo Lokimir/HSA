@@ -31,7 +31,7 @@
 		bool operator== (const Problem& pbm) const;
 		bool operator!= (const Problem& pbm) const;
 
-		Direction direction () const; //Maximize or Minimize
+	//	Direction direction () const; //Maximize or Minimize -> type enum
 		int dimension() const;
 		double LowerLimit, UpperLimit;
 
