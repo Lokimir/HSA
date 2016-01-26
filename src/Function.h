@@ -14,7 +14,7 @@ public:
 	Function();
 	virtual ~Function();
 
-	double rosenbrock(std::vector<double>);
+	double rosenbrock(std::vector<double>&, unsigned int);
 };
 
 
