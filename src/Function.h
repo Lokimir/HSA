@@ -21,6 +21,7 @@ public:
 	double rosenbrock(std::vector<double>, unsigned int);
 	double ackley(std::vector<double>);
 	double schwefel(std::vector<double>);
+	double rastrigin(std::vector<double>);
 };
 
 
