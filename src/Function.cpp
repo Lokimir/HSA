@@ -45,8 +45,7 @@ double Function::ackley(std::vector<double>& solution){
 	double expr2=0;
 	expr2=(1/d)*sum2;
 	double resultat=0;
-
-	resultat= -a*exp(expr1)-exp(expr2)+a+exp(1);
+	resultat= (-a*exp(expr1))-(exp(expr2)+a+exp(1));
 	return resultat;
 }
 double Function::schwefel(std::vector<double>& solution){
