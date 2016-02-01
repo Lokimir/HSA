@@ -14,7 +14,7 @@
 Function::~Function() {
 }
 
-double Function::rosenbrock(std::vector<double>& X, unsigned int dimension) {
+double Function::rosenbrock(std::vector<double> X, unsigned int dimension) {
 	double sum=0;
 	for (int i=0; i<dimension-1; ++i)
 		sum += 100*pow( X[i+1] - X[i]*X[i], 2.0) + pow(X[i]-1, 2.0);
@@ -37,7 +37,7 @@ double Function::ackley(std::vector<double> solution){
 	resultat=-20*exp(-0.2 * sqrt(1.0/dim * sum1))-exp(1.0/dim*sum2)+ 20+ exp(1.0);
 	return resultat;
 }
-double Function::schwefel(std::vector<double>& solution){
+double Function::schwefel(std::vector<double> solution){
 
 	unsigned int dim= solution.size();
 	double sum1=0;
@@ -50,7 +50,7 @@ double Function::schwefel(std::vector<double>& solution){
 	resultat=418.9829*dim-(sum1);
 	return resultat;
 }
-double Function::rastrigin(std::vector<double>& solution){
+double Function::rastrigin(std::vector<double> solution){
 
 	unsigned int dim= solution.size();
 	double a=10;
