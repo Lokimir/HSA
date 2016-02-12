@@ -16,12 +16,12 @@ class Function;
 
 
 MyAlgorithm::MyAlgorithm(const Problem& pbm,const SetUpParams& setup):
-										_problem(pbm),
-										_fitness_values(createParticuleVector()),
-										_setup(setup),
-										_upper_cost(0),
-										_lower_cost(0),
-										_solutions(createSolutionVector())
+_problem(pbm),
+_fitness_values(createParticuleVector()),
+_setup(setup),
+_upper_cost(0),
+_lower_cost(0),
+_solutions(createSolutionVector())
 {
 }
 
@@ -45,24 +45,31 @@ void MyAlgorithm::initialize() /* initialise 40 individus de 20 dimensions */
 	{
 		for(int i = 0; i<dimension; i++)
 		{
-			sol->getSolution().push_back(lower + (double)rand()/RAND_MAX * (upper-lower));
+			sol->getSolution().insert(sol->getSolution().begin()+i,lower + (double)rand()/RAND_MAX * (upper-lower));
 		}
-		_solutions.push_back(sol);
+		_solutions.insert(_solutions.begin()+j,sol);
 	}
 }
-// creates a array with fitness of all solutions
-// in MyAlgorithm and its position in the MyAlgorithm
-void MyAlgorithm::evaluate()
+
+void MyAlgorithm::evaluate() /* Pour chaque individu : calcule sa fitness et la met dans le vector */
 {
 	Function fun;
 	int sizePop = setup().population_size();
+	unsigned int min = 0;
+	unsigned int max = 0;
 	struct particle part;
 	for(int i = 0; i<sizePop; i++)
 	{
 		part.fitness = fun.launchFunction(_solutions[i]->getSolution(), _problem.getIndexFunction());
 		part.index=i;
-		_fitness_values.push_back(part);
+		_fitness_values.insert(_fitness_values.begin()+i,part);
+		if(max < part.fitness)
+			max=i;
+		if(min > part.fitness)
+			min=i;
 	}
+	_upper_cost=max;
+	_lower_cost=min;
 }
 
 const std::vector<Solution*>& MyAlgorithm::solutions() const
@@ -118,7 +125,7 @@ Solution& MyAlgorithm::best_solution() const
 	for(int i =0; i<_fitness_values.size();i++)
 	{
 		if(_fitness_values[i].index == _upper_cost)
-			return *_solutions[i];
+			return *(_solutions[i]);
 	}
 }
 
@@ -127,13 +134,13 @@ Solution& MyAlgorithm::worst_solution() const
 	for(int i =0; i<_fitness_values.size();i++)
 	{
 		if(_fitness_values[i].index == _lower_cost)
-			return *_solutions[i];
+			return *(_solutions[i]);
 	}
 }
 
 void MyAlgorithm::evolution(int iter)
 {
-	/*makes an evolution step*/
+	/*makes an evolution step, utiliser evaluate() */
 }
 
 std::vector<Solution*> createSolutionVector()
