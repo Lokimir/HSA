@@ -21,6 +21,7 @@
   {
 	public:
 		Problem(double,double);
+		Problem(const Problem&);
 		~Problem(){};
 
 	//	Direction direction () const; //Maximize or Minimize -> type enum

@@ -23,7 +23,7 @@ class MyAlgorithm
 		std::vector<struct particle> _fitness_values;
 		const SetUpParams& _setup;
 		unsigned int _upper_cost,_lower_cost; // lower and upper fitness of individuals in population
-		Problem _problem;
+		const Problem& _problem;
 
 	public:
 		MyAlgorithm(const Problem& pbm,const SetUpParams& setup);
@@ -50,5 +50,8 @@ class MyAlgorithm
 
 		void evolution(int iter); /*makes an evolution step*/
   };
+
+std::vector<Solution*> createSolutionVector();
+std::vector<struct particle> createParticuleVector();
 
 #endif /* MYALGORITHM_H_ */
