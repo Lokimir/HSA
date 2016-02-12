@@ -14,7 +14,7 @@
 Function::~Function() {
 }
 
-double Function::rosenbrock(std::vector<double> X) {
+double rosenbrock(std::vector<double> X) {
 	double sum=0;
 	unsigned int dimension = X.size();
 	for (int i=0; i<dimension-1; ++i)
@@ -22,7 +22,7 @@ double Function::rosenbrock(std::vector<double> X) {
 
 	return sum;
 }
-double Function::ackley(std::vector<double> solution){
+double ackley(std::vector<double> solution){
 	double c=2*M_PI,carre =2;
 	unsigned int dim= solution.size();
 	double sum1=0;
@@ -38,7 +38,7 @@ double Function::ackley(std::vector<double> solution){
 	resultat=-20*exp(-0.2 * sqrt(1.0/dim * sum1))-exp(1.0/dim*sum2)+ 20+ exp(1.0);
 	return resultat;
 }
-double Function::schwefel(std::vector<double> solution){
+double schwefel(std::vector<double> solution){
 
 	unsigned int dim= solution.size();
 	double sum1=0;
@@ -51,7 +51,7 @@ double Function::schwefel(std::vector<double> solution){
 	resultat=418.9829*dim-(sum1);
 	return resultat;
 }
-double Function::rastrigin(std::vector<double> solution){
+double rastrigin(std::vector<double> solution){
 
 	unsigned int dim= solution.size();
 	double a=10;
@@ -64,7 +64,7 @@ double Function::rastrigin(std::vector<double> solution){
 	double resultat=a*dim+sum1;
 	return resultat;
 }
-double Function::schaffer (std::vector<double> solution){
+double schaffer (std::vector<double> solution){
 
 	unsigned int dim= solution.size();
 		double sum = 0;
@@ -104,7 +104,7 @@ double Function::launchFunction(std::vector<double> X, unsigned int n)
 		case 2 : return ackley(X); break;
 		case 3 : return schwefel(X); break;
 		case 4 : return rastrigin(X); break;
-		case 5 : break;
-		case 6 : break;
-		default; break;
+		case 5 : return schaffer(X); break;
+		case 6 : return weierstrass(X); break;
+		default: break;
 }
