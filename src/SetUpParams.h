@@ -20,7 +20,7 @@ class SetUpParams
 		unsigned int   _solution_size;	        // size of each particle
 
 	public:
-		SetUpParams ();
+		SetUpParams();
 
  		friend std::ostream& operator<< (std::ostream& os, const SetUpParams& setup);
 		friend std::istream& operator>> (std::istream& is, SetUpParams& setup);

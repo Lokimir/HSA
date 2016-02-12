@@ -99,12 +99,14 @@ double weierstrass(std::vector<double> solution) {
 
 double Function::launchFunction(std::vector<double> X, unsigned int n)
 {
-	switch(n)
+	switch(n){
 		case 1 : return rosenbrock(X); break;
 		case 2 : return ackley(X); break;
 		case 3 : return schwefel(X); break;
 		case 4 : return rastrigin(X); break;
-		case 5 : return schaffer(X); break;
-		case 6 : return weierstrass(X); break;
+		case 5 : break;
+		case 6 : break;
 		default: break;
+	}
 }
+
