@@ -12,8 +12,17 @@ _dimension(20), LowerLimit(lower), UpperLimit(upper)
 {
 }
 
+Problem::Problem(const Problem& prob):
+_dimension(prob._dimension), LowerLimit(prob.LowerLimit), UpperLimit(prob.UpperLimit)
+{
+}
+
 int Problem::dimension() const
 {
 	return _dimension;
 }
 
+int Problem::getIndexFunction() const
+{
+	return indexFunction;
+}

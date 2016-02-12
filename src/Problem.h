@@ -21,14 +21,17 @@
   {
 	public:
 		Problem(double,double);
+		Problem(const Problem&);
 		~Problem(){};
 
 	//	Direction direction () const; //Maximize or Minimize -> type enum
 		int dimension() const;
 		double LowerLimit, UpperLimit;
+		int getIndexFunction() const;
 
 	private:
 		int _dimension;
+		int indexFunction;
   };
 //=======================================================================
 
