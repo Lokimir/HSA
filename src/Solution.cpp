@@ -7,21 +7,9 @@
 
 #include "Solution.h"
 
-Solution::Solution(const Problem& pbm) :
-_solution(NULL), _current_fitness(NULL), _pbm(pbm)
+Solution::Solution():
+_solution(createDoubleVector()), _current_fitness(0)
 {
-
-}
-
-Solution::Solution(const Solution& sol) :
-_solution(sol._solution), _current_fitness(sol._current_fitness), _pbm(pbm())
-{
-
-}
-
-const Problem& Solution::pbm() const
-{
-	return _pbm;
 }
 
 double Solution::get_fitness()
@@ -48,4 +36,15 @@ double& Solution::position(const int index)
 void Solution::position(const int index, const double value)
 {
 	_solution.insert(_solution.begin()+index, value);
+}
+
+std::vector<double> createDoubleVector()
+{
+	std::vector<double> sol;
+	return sol;
+}
+
+std::vector<double> Solution::getSolution()
+{
+	return _solution;
 }

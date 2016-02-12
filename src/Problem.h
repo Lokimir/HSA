@@ -28,6 +28,7 @@
 		int dimension() const;
 		double LowerLimit, UpperLimit;
 		int getIndexFunction() const;
+		void setIndexFunction(int);
 
 	private:
 		int _dimension;

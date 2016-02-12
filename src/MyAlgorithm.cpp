@@ -6,11 +6,12 @@
  */
 
 #include "MyAlgorithm.h"
-#include "Problem.h"
-#include "SetUpParams.h"
 
-#include <vector>
 #include <cstdlib>
+
+
+class Function;
+
 
 MyAlgorithm::MyAlgorithm(const Problem& pbm,const SetUpParams& setup):
 _problem(pbm),
@@ -36,13 +37,12 @@ void MyAlgorithm::initialize()
 	int dimension = _problem.dimension();
 	double lower = _problem.LowerLimit;
 	double upper = _problem.UpperLimit;
-	struct particle part;
+	Solution* sol = new Solution();
 	for(int i = 0; i<dimension; i++)
 	{
-		part.fitness = lower + (double)rand() * (upper-lower);
-		part.index = i;
-		_fitness_values.push_back(part);
+		sol->getSolution().push_back(lower + (double)rand()/RAND_MAX * (upper-lower));
 	}
+	_solutions.push_back(sol);
 }
 
 void MyAlgorithm::evaluate()
