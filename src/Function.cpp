@@ -68,10 +68,10 @@ double Function::rastrigin(std::vector<double> solution){
 double Function::launchFunction(std::vector<double> X, unsigned int n)
 {
 	switch(n)
-		case 1 : rosenbrock(X); break;
-		case 2 : ackley(X); break;
-		case 3 : schwefel(X); break;
-		case 4 : rastrigin(X); break;
+		case 1 : return rosenbrock(X); break;
+		case 2 : return ackley(X); break;
+		case 3 : return schwefel(X); break;
+		case 4 : return rastrigin(X); break;
 		case 5 : break;
 		case 6 : break;
 		default; break;
