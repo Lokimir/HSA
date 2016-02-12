@@ -24,6 +24,8 @@ public:
 	double ackley(std::vector<double>);
 	double schwefel(std::vector<double>);
 	double rastrigin(std::vector<double>);
+	double schaffer(std::vector<double>);
+	double weierstrass(std::vector<double>);
 };
 
 #endif /* FUNCTION_H_ */

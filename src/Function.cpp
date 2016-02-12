@@ -64,6 +64,38 @@ double Function::rastrigin(std::vector<double> solution){
 	double resultat=a*dim+sum1;
 	return resultat;
 }
+double Function::schaffer (std::vector<double> solution){
+
+	unsigned int dim= solution.size();
+		double sum = 0;
+		double innerThing = 0;
+
+		for(int i = 0; i < dim-1; i++)
+		{
+			innerThing = pow(solution[i], 2) + pow(solution[i+1], 2);
+			sum += pow(innerThing, 0.25) * (1 + pow(sin(50*pow(innerThing, 0.1)), 2));
+		}
+
+		double resultat=sum;
+		return resultat;
+
+}
+double weierstrass(std::vector<double> solution) {
+
+	// from random google code
+
+	unsigned int dim = solution.size();
+	double a = 0.5;
+	double b = 3.0;
+	int kmax = 20;
+
+	double f = 0;
+	for (int i = 0; i < dim; i++)
+		for (int k = 0; k <= kmax; k++)
+			f += pow(a, k) * cos(2 * M_PI * pow(b, k) * (solution[i] + 0.5));
+
+	return f;
+}
 
 double Function::launchFunction(std::vector<double> X, unsigned int n)
 {
