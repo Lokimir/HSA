@@ -7,7 +7,8 @@
 
 #ifndef FUNCTION_H_
 #define FUNCTION_H_
-#include "SetUpParams.h";
+
+#include "SetUpParams.h"
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -18,7 +19,7 @@ public:
 	Function();
 	virtual ~Function();
 
-	static double launchFunction(std::vector<double>, unsigned int);
+	double launchFunction(std::vector<double>, unsigned int);
 
 };
 

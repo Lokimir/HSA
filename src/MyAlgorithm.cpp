@@ -9,17 +9,19 @@
 
 #include <cstdlib>
 
+#include "Function.h"
+#include "Problem.h"
 
 class Function;
 
 
 MyAlgorithm::MyAlgorithm(const Problem& pbm,const SetUpParams& setup):
-_problem(pbm),
-_fitness_values(createParticuleVector()),
-_setup(setup),
-_upper_cost(0),
-_lower_cost(0),
-_solutions(createSolutionVector())
+										_problem(pbm),
+										_fitness_values(createParticuleVector()),
+										_setup(setup),
+										_upper_cost(0),
+										_lower_cost(0),
+										_solutions(createSolutionVector())
 {
 }
 
@@ -32,21 +34,35 @@ const SetUpParams& MyAlgorithm::setup() const
 	return _setup;
 }
 
-void MyAlgorithm::initialize()
+void MyAlgorithm::initialize() /* initialise 40 individus de 20 dimensions */
 {
 	int dimension = _problem.dimension();
 	double lower = _problem.LowerLimit;
 	double upper = _problem.UpperLimit;
+	int sizePop = setup().population_size();
 	Solution* sol = new Solution();
-	for(int i = 0; i<dimension; i++)
+	for(int j = 0; j<sizePop; j++)
 	{
-		sol->getSolution().push_back(lower + (double)rand()/RAND_MAX * (upper-lower));
+		for(int i = 0; i<dimension; i++)
+		{
+			sol->getSolution().push_back(lower + (double)rand()/RAND_MAX * (upper-lower));
+		}
+		_solutions.push_back(sol);
 	}
-	_solutions.push_back(sol);
 }
-
+// creates a array with fitness of all solutions
+// in MyAlgorithm and its position in the MyAlgorithm
 void MyAlgorithm::evaluate()
 {
+	Function fun;
+	int sizePop = setup().population_size();
+	struct particle part;
+	for(int i = 0; i<sizePop; i++)
+	{
+		part.fitness = fun.launchFunction(_solutions[i]->getSolution(), _problem.getIndexFunction());
+		part.index=i;
+		_fitness_values.push_back(part);
+	}
 }
 
 const std::vector<Solution*>& MyAlgorithm::solutions() const
@@ -81,27 +97,43 @@ double MyAlgorithm::fitness(const unsigned int index) const
 
 double MyAlgorithm::best_cost() const
 {
-	return _fitness_values[_upper_cost];
+	for(int i =0; i<_fitness_values.size();i++)
+	{
+		if(_fitness_values[i].index == _upper_cost)
+			return _fitness_values[i].fitness;
+	}
 }
 
 double MyAlgorithm::worst_cost() const
 {
-	return _fitness_values[_lower_cost];
+	for(int i =0; i<_fitness_values.size();i++)
+	{
+		if(_fitness_values[i].index == _lower_cost)
+			return _fitness_values[i].fitness;
+	}
 }
 
 Solution& MyAlgorithm::best_solution() const
 {
-	return _solutions[_upper_cost];
+	for(int i =0; i<_fitness_values.size();i++)
+	{
+		if(_fitness_values[i].index == _upper_cost)
+			return *_solutions[i];
+	}
 }
 
 Solution& MyAlgorithm::worst_solution() const
 {
-	return _solutions[_lower_cost];
+	for(int i =0; i<_fitness_values.size();i++)
+	{
+		if(_fitness_values[i].index == _lower_cost)
+			return *_solutions[i];
+	}
 }
 
-void evolution(int iter)
+void MyAlgorithm::evolution(int iter)
 {
-	 /*makes an evolution step*/
+	/*makes an evolution step*/
 }
 
 std::vector<Solution*> createSolutionVector()

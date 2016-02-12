@@ -11,6 +11,11 @@
 #include <vector>
 #include <stdlib.h>
 
+Function::Function()
+{
+
+}
+
 Function::~Function() {
 }
 
@@ -104,8 +109,8 @@ double Function::launchFunction(std::vector<double> X, unsigned int n)
 		case 2 : return ackley(X); break;
 		case 3 : return schwefel(X); break;
 		case 4 : return rastrigin(X); break;
-		case 5 : break;
-		case 6 : break;
+		case 5 : return schaffer(X); break;
+		case 6 : return weierstrass(X); break;
 		default: break;
 	}
 }
