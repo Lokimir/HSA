@@ -19,16 +19,9 @@ class Solution
 	public:
 		Solution (const Problem& pbm);
 		Solution (const Solution& sol);
-		~Solution();
-
- 		friend std::ostream& operator<< (std::ostream& os, const Solution& sol);
-		friend std::istream& operator>> (std::istream& is, Solution& sol);
+		~Solution() {};
 
 		const Problem& pbm() const;
-
-		Solution& operator=  (const Solution& sol);
-		bool operator== (const Solution& sol) const;
-		bool operator!= (const Solution& sol) const;
 
 		void initialize();
 		double fitness();
