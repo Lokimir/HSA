@@ -18,12 +18,12 @@ public:
 	Function();
 	virtual ~Function();
 
-	double rosenbrock(std::vector<double>, unsigned int);
+	double launchFunction(std::vector<double>, unsigned int);
+
+	double rosenbrock(std::vector<double>);
 	double ackley(std::vector<double>);
 	double schwefel(std::vector<double>);
 	double rastrigin(std::vector<double>);
 };
-
-
 
 #endif /* FUNCTION_H_ */
