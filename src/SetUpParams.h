@@ -27,9 +27,9 @@ class SetUpParams
 		const unsigned int   nb_evolution_steps() const;
 		const unsigned int   population_size() const;
 		const unsigned int   solution_size() const;
-		void independent_runs(const unsigned int val);
-		void nb_evolution_steps(const unsigned int val);
-		void population_size(const unsigned int val);
-		void solution_size(const unsigned int val);
+		void independent_runs(const unsigned int);
+		void nb_evolution_steps(const unsigned int);
+		void population_size(const unsigned int);
+		void solution_size(const unsigned int);
   };
 #endif /* SETUPPARAMS_H_ */

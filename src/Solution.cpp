@@ -35,7 +35,7 @@ void Solution::initialize()
 double Solution::fitness()
 {
 	Function f;
-	_current_fitness = f.launchFunction(_solution, _problem.getIndexFunction());
+	_current_fitness = -f.launchFunction(_solution, _problem.getIndexFunction());
 	return _current_fitness;
 }
 

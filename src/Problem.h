@@ -26,7 +26,6 @@ public:
 	Problem(const Problem&);
 	~Problem(){};
 
-	//	Direction direction () const; //Maximize or Minimize -> type enum
 	int dimension() const;
 	int getIndexFunction() const;
 	void setIndexFunction(int);

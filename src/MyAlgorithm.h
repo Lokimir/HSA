@@ -33,14 +33,14 @@ class MyAlgorithm
 	  	void initialize();
 
 		// creates a array with fitness of all solutions in MyAlgorithm and its position in the MyAlgorithm
-        void evaluate();
+        void evaluate(struct particle&);
 
 	 	const std::vector<Solution*>& solutions() const;
 		unsigned int upper_cost() const;
 		unsigned int lower_cost() const;
-		Solution& solution(const unsigned int index) const;
+		Solution& solution(const unsigned int) const;
         std::vector<struct particle>&  fitness_values();
-		double fitness(const unsigned int index) const;
+		double fitness(const unsigned int) const;
 
 
 		double best_cost() const;

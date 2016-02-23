@@ -36,44 +36,35 @@ const SetUpParams& MyAlgorithm::setup() const
 
 void MyAlgorithm::initialize() /* initialise 40 individus de 20 dimensions */
 {
+	Solution* sol;
+	struct particle part;
+	_upper_cost = 0; _lower_cost = 0;
+
 	for(int j = 0; j<setup().population_size(); j++)
 	{
-		Solution* sol = new Solution(_problem);
+		sol = new Solution(_problem);
 		sol->initialize();
 		_solutions.insert(_solutions.begin()+j,sol);
+		part.fitness = sol->get_fitness();
+		part.index=j;
+		_fitness_values.insert(_fitness_values.begin()+j,part);
 	}
+	evaluate(part);
+	delete sol;
 }
 
-void MyAlgorithm::evaluate() /* Pour chaque individu : calcule sa fitness et la met dans le vector */
+void MyAlgorithm::evaluate(struct particle& part)
 {
-	Function fun;
-	int sizePop = setup().population_size();
-	unsigned int min = 0;
-	unsigned int max = 0;
 	double maxFitness,minFitness;
-	struct particle part;
 
-	maxFitness = fun.launchFunction(_solutions[0]->getSolution(), _problem.getIndexFunction());
-	minFitness = maxFitness;
+	maxFitness = _solutions[_upper_cost]->get_fitness();
+	minFitness = _solutions[_lower_cost]->get_fitness();
 
-	for(int i = 0; i<sizePop; i++)
-	{
-		part.fitness = fun.launchFunction(_solutions[i]->getSolution(), _problem.getIndexFunction());
-		part.index=i;
-		_fitness_values.insert(_fitness_values.begin()+i,part);
-		if(maxFitness < part.fitness)
-		{
-			maxFitness = part.fitness;
-			max=i;
-		}
-		if(minFitness > part.fitness)
-		{
-			minFitness = part.fitness;
-			min=i;
-		}
-	}
-	_upper_cost=max;
-	_lower_cost=min;
+	if(maxFitness < part.fitness)
+		_upper_cost = part.index;
+	for(int i = 0; i < _setup.population_size(); i++)
+		if(minFitness > _solutions[i]->get_fitness())
+			_lower_cost= i;
 }
 
 const std::vector<Solution*>& MyAlgorithm::solutions() const
@@ -145,10 +136,11 @@ Solution& MyAlgorithm::worst_solution() const
 void MyAlgorithm::evolution()
 {
 	const double rate = 0.3;
-	const double harmonyMem= 0;
+	const double harmonyMem= 0.9;
 	const double limitMin = _problem.LowerLimit;
 	const double limitMax = _problem.UpperLimit;
 	double tmp = 0;
+	struct particle part;
 
 	for(int j = 0 ; j < _setup.population_size(); j++)
 	{
@@ -160,16 +152,21 @@ void MyAlgorithm::evolution()
 				sol->position(i,_solutions[(int)(39*((double)rand()/RAND_MAX))]->position(i));
 				if((double)rand()/RAND_MAX<=rate)
 				{
-					tmp = sol->position(i);
-					sol->position(i, tmp+(limitMax-limitMin)*0.005*
-							(-1+2*(double)rand()/RAND_MAX));
+					tmp = sol->position(i)+(limitMax-limitMin)*0.005*
+							(-1+2*(double)rand()/RAND_MAX);
+					if(tmp<limitMax && tmp>limitMin) sol->position(i, tmp);
 				}
 			}
 			else
 				sol->position(i,limitMin+(limitMax-limitMin)*(double)rand()/RAND_MAX);
 		}
 		if(worst_cost() < sol->fitness())
-			_solutions[lower_cost()] = sol;
+		{
+			_solutions[_lower_cost] = sol;
+			part.fitness = sol->get_fitness();
+			part.index = _lower_cost;
+			evaluate(part);
+		}
 	}
 }
 
