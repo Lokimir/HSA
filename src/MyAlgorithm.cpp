@@ -141,11 +141,10 @@ void MyAlgorithm::evolution()
 	const double limitMax = _problem.UpperLimit;
 	double tmp = 0;
 	struct particle part;
-	Solution *sol;
 
 	for(int j = 0 ; j < _setup.population_size(); j++)
 	{
-		sol = new Solution(_problem);
+		Solution* sol = new Solution(_problem);
 		for(int i = 0 ; i < _setup.solution_size(); i++)
 		{
 			if((double)rand()/RAND_MAX<=harmonyMem)
@@ -169,7 +168,6 @@ void MyAlgorithm::evolution()
 			evaluate(part);
 		}
 	}
-	delete sol;
 }
 
 std::vector<Solution*> createSolutionVector()
