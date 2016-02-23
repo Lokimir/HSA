@@ -11,13 +11,13 @@
 #include <iostream>
 #include <vector>
 
-class Problem;
+#include "Problem.h"
 
 class Solution
   {
 	//contient la declaration d'une solution
 	public:
-		Solution();
+		Solution(const Problem&);
 		~Solution() {};
 
 		const Problem& pbm() const;
@@ -37,6 +37,7 @@ class Solution
 	private:
         std::vector<double> _solution;
         double _current_fitness;
+        const Problem& _problem;
   };
 
 std::vector<double> createDoubleVector();

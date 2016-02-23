@@ -48,7 +48,7 @@ class MyAlgorithm
 		Solution& best_solution() const;
 		Solution& worst_solution() const;
 
-		void evolution(int iter); /*makes an evolution step*/
+		void evolution(); /*makes an evolution step*/
   };
 
 std::vector<Solution*> createSolutionVector();

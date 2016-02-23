@@ -13,7 +13,6 @@
 
 Function::Function()
 {
-
 }
 
 Function::~Function() {
@@ -61,14 +60,15 @@ double rastrigin(std::vector<double> solution){
 	unsigned int dim= solution.size();
 	double a=10;
 	double sum1=0;
-	for(int i=1;i<=dim;i++)
+	for(int i=0;i<dim;i++)
 	{
 		double d=solution[i];
-		sum1=sum1+(pow(d,2.0)-a*cos(2*M_PI*d));
+		sum1+=(pow(d,2.0)-a*cos(2*M_PI*d));
 	}
 	double resultat=a*dim+sum1;
 	return resultat;
 }
+
 double schaffer (std::vector<double> solution){
 
 	unsigned int dim= solution.size();

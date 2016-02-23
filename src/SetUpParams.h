@@ -21,9 +21,7 @@ class SetUpParams
 
 	public:
 		SetUpParams();
-
- 		friend std::ostream& operator<< (std::ostream& os, const SetUpParams& setup);
-		friend std::istream& operator>> (std::istream& is, SetUpParams& setup);
+		~SetUpParams(){};
 
 		const unsigned int   independent_runs() const;
 		const unsigned int   nb_evolution_steps() const;
@@ -33,7 +31,5 @@ class SetUpParams
 		void nb_evolution_steps(const unsigned int val);
 		void population_size(const unsigned int val);
 		void solution_size(const unsigned int val);
-
-		~SetUpParams();
   };
 #endif /* SETUPPARAMS_H_ */

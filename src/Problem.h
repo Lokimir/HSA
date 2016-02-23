@@ -10,30 +10,31 @@
 
 #include <iostream>
 
-  struct particle // index of a particle in the swarm and its fitness
-  {
-        int index;
-        double fitness;
-  };
+struct particle // index of a particle in the swarm and its fitness
+{
+	int index;
+	double fitness;
+};
 
 //=======================================================================
-  class Problem
-  {
-	public:
-		Problem(double,double);
-		Problem(const Problem&);
-		~Problem(){};
+class Problem
+{
+public:
+	double LowerLimit, UpperLimit;
+
+	Problem(double,double,int);
+	Problem(const Problem&);
+	~Problem(){};
 
 	//	Direction direction () const; //Maximize or Minimize -> type enum
-		int dimension() const;
-		double LowerLimit, UpperLimit;
-		int getIndexFunction() const;
-		void setIndexFunction(int);
+	int dimension() const;
+	int getIndexFunction() const;
+	void setIndexFunction(int);
 
-	private:
-		int _dimension;
-		int indexFunction;
-  };
+private:
+	int _dimension;
+	int indexFunction;
+};
 //=======================================================================
 
 #endif

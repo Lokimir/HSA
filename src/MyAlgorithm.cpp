@@ -8,11 +8,11 @@
 #include "MyAlgorithm.h"
 
 #include <cstdlib>
+#include <ctime>
+#include <iterator>
 
 #include "Function.h"
-#include "Problem.h"
-
-class Function;
+#include "SetUpParams.h"
 
 
 MyAlgorithm::MyAlgorithm(const Problem& pbm,const SetUpParams& setup):
@@ -36,17 +36,10 @@ const SetUpParams& MyAlgorithm::setup() const
 
 void MyAlgorithm::initialize() /* initialise 40 individus de 20 dimensions */
 {
-	int dimension = _problem.dimension();
-	double lower = _problem.LowerLimit;
-	double upper = _problem.UpperLimit;
-	int sizePop = setup().population_size();
-	Solution* sol = new Solution();
-	for(int j = 0; j<sizePop; j++)
+	for(int j = 0; j<setup().population_size(); j++)
 	{
-		for(int i = 0; i<dimension; i++)
-		{
-			sol->getSolution().insert(sol->getSolution().begin()+i,lower + (double)rand()/RAND_MAX * (upper-lower));
-		}
+		Solution* sol = new Solution(_problem);
+		sol->initialize();
 		_solutions.insert(_solutions.begin()+j,sol);
 	}
 }
@@ -57,16 +50,27 @@ void MyAlgorithm::evaluate() /* Pour chaque individu : calcule sa fitness et la 
 	int sizePop = setup().population_size();
 	unsigned int min = 0;
 	unsigned int max = 0;
+	double maxFitness,minFitness;
 	struct particle part;
+
+	maxFitness = fun.launchFunction(_solutions[0]->getSolution(), _problem.getIndexFunction());
+	minFitness = maxFitness;
+
 	for(int i = 0; i<sizePop; i++)
 	{
 		part.fitness = fun.launchFunction(_solutions[i]->getSolution(), _problem.getIndexFunction());
 		part.index=i;
 		_fitness_values.insert(_fitness_values.begin()+i,part);
-		if(max < part.fitness)
+		if(maxFitness < part.fitness)
+		{
+			maxFitness = part.fitness;
 			max=i;
-		if(min > part.fitness)
+		}
+		if(minFitness > part.fitness)
+		{
+			minFitness = part.fitness;
 			min=i;
+		}
 	}
 	_upper_cost=max;
 	_lower_cost=min;
@@ -138,9 +142,35 @@ Solution& MyAlgorithm::worst_solution() const
 	}
 }
 
-void MyAlgorithm::evolution(int iter)
+void MyAlgorithm::evolution()
 {
-	/*makes an evolution step, utiliser evaluate() */
+	const double rate = 0.3;
+	const double harmonyMem= 0;
+	const double limitMin = _problem.LowerLimit;
+	const double limitMax = _problem.UpperLimit;
+	double tmp = 0;
+
+	for(int j = 0 ; j < _setup.population_size(); j++)
+	{
+		Solution* sol = new Solution(_problem);
+		for(int i = 0 ; i < _setup.solution_size(); i++)
+		{
+			if((double)rand()/RAND_MAX<=harmonyMem)
+			{
+				sol->position(i,_solutions[(int)(39*((double)rand()/RAND_MAX))]->position(i));
+				if((double)rand()/RAND_MAX<=rate)
+				{
+					tmp = sol->position(i);
+					sol->position(i, tmp+(limitMax-limitMin)*0.005*
+							(-1+2*(double)rand()/RAND_MAX));
+				}
+			}
+			else
+				sol->position(i,limitMin+(limitMax-limitMin)*(double)rand()/RAND_MAX);
+		}
+		if(worst_cost() < sol->fitness())
+			_solutions[lower_cost()] = sol;
+	}
 }
 
 std::vector<Solution*> createSolutionVector()

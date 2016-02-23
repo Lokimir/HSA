@@ -7,8 +7,8 @@
 
 #include "Problem.h"
 
-Problem::Problem(double lower, double upper):
-_dimension(20), LowerLimit(lower), UpperLimit(upper),indexFunction(0)
+Problem::Problem(double lower, double upper,int index):
+_dimension(20), LowerLimit(lower), UpperLimit(upper),indexFunction(index)
 {
 }
 
