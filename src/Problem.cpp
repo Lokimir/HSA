@@ -17,6 +17,10 @@ _dimension(prob._dimension), LowerLimit(prob.LowerLimit), UpperLimit(prob.UpperL
 {
 }
 
+Problem::~Problem(){
+
+}
+
 int Problem::dimension() const
 {
 	return _dimension;
