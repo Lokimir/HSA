@@ -30,8 +30,8 @@ class Solution
 
 		std::vector<double>& solution();
 
-		double& position(const int index); //retournera une position du tableau _solution
-        void  position(const int index, const double value);
+		double& position(const int); //retournera une position du tableau _solution
+        void  position(const int, const double);
         std::vector<double> getSolution();
 
 	private:
