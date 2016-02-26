@@ -6,10 +6,7 @@
  */
 
 #include "Function.h"
-#include <iostream>
 #include <cmath>
-#include <vector>
-#include <stdlib.h>
 
 Function::Function()
 {
@@ -18,85 +15,97 @@ Function::Function()
 Function::~Function() {
 }
 
-double rosenbrock(std::vector<double> X) {
+double Function::rosenbrock(std::vector<double> X)
+{
 	double sum=0;
 	unsigned int dimension = X.size();
-	for (int i=0; i<dimension-1; ++i)
-		sum += 100*pow( X[i+1] - X[i]*X[i], 2.0) + pow(X[i]-1, 2.0);
+
+	for (unsigned int i = 0; i < dimension-1; ++i)
+		sum += 100*pow(X[i+1]-X[i]*X[i], 2.0)+pow(X[i]-1, 2.0);
 
 	return sum;
 }
-double ackley(std::vector<double> solution){
-	double c=2*M_PI,carre =2;
-	unsigned int dim= solution.size();
-	double sum1=0;
-	double sum2=0;
-	for(unsigned int i=0;i<dim;i++)
-	{
-		double d=solution[i];
-		sum1=sum1+pow(d,carre);
-		sum2=sum2+cos(c*d);
-	}
-	double resultat=0.0;
 
-	resultat=-20*exp(-0.2 * sqrt(1.0/dim * sum1))-exp(1.0/dim*sum2)+ 20+ exp(1.0);
+double Function::ackley(std::vector<double> solution)
+{
+	double c = 2*M_PI;
+	double exponent = 2;
+	double sum1 = 0;
+	double sum2 = 0;
+	double d = 0;
+	double resultat = 0;
+	unsigned int dim = solution.size();
+
+	for(unsigned int i = 0; i < dim; i++)
+	{
+		d = solution[i];
+		sum1 += pow(d, exponent);
+		sum2 += cos(c*d);
+	}
+
+	resultat = -20*exp(-0.2*sqrt(1.0/dim*sum1))-exp(1.0/dim*sum2)+20+exp(1.0);
 	return resultat;
 }
-double schwefel(std::vector<double> solution){
-
-	unsigned int dim= solution.size();
-	double sum1=0;
-	for(int i=0;i<dim;i++)
-	{
-		double d=solution[i];
-		sum1=sum1+d*sin(sqrt(abs(d)));
-	}
+double Function::schwefel(std::vector<double> solution)
+{
+	unsigned int dim = solution.size();
+	double sum1 = 0;
+	double sol = 0;
 	double resultat=0;
-	resultat=418.9829*dim-(sum1);
-	return resultat;
-}
 
-double rastrigin(std::vector<double> solution){
-
-	unsigned int dim= solution.size();
-	double a=10;
-	double sum1=0;
-	for(int i=0;i<dim;i++)
+	for(unsigned int i = 0; i < dim; i++)
 	{
-		double d=solution[i];
-		sum1+=(pow(d,2.0)-a*cos(2*M_PI*d));
+		sol = solution[i];
+		sum1 += sol*sin(sqrt(abs(sol)));
 	}
-	double resultat=a*dim+sum1;
+
+	resultat = 418.9829*dim-sum1;
 	return resultat;
 }
 
-double schaffer (std::vector<double> solution){
+double Function::rastrigin(std::vector<double> solution)
+{
+	unsigned int dim = solution.size();
+	double a = 10;
+	double sum1 = 0;
+	double resultat = 0;
 
-	unsigned int dim= solution.size();
-		double sum = 0;
-		double innerThing = 0;
+	for(unsigned int i = 0; i < dim; i++)
+	{
+		double d = solution[i];
+		sum1 += pow(d,2.0)-a*cos(2*M_PI*d);
+	}
 
-		for(int i = 0; i < dim-1; i++)
-		{
-			innerThing = pow(solution[i], 2) + pow(solution[i+1], 2);
-			sum += pow(innerThing, 0.25) * (1 + pow(sin(50*pow(innerThing, 0.1)), 2));
-		}
+	resultat = a*dim+sum1;
+	return resultat;
+}
 
-		double resultat=sum;
-		return resultat;
+double Function::schaffer (std::vector<double> solution)
+{
+	unsigned int dim = solution.size();
+	double sum = 0;
+	double innerThing = 0;
+	double resultat = 0;
+
+	for(unsigned int i = 0; i < dim-1; i++)
+	{
+		innerThing = pow(solution[i], 2) + pow(solution[i+1], 2);
+		sum += pow(innerThing, 0.25)*(1+pow(sin(50*pow(innerThing, 0.1)), 2));
+	}
+
+	resultat = sum;
+	return resultat;
 
 }
-double weierstrass(std::vector<double> solution) {
-
-	// from random google code
-
+double Function::weierstrass(std::vector<double> solution)
+{
 	unsigned int dim = solution.size();
 	double a = 0.5;
 	double b = 3.0;
 	int kmax = 20;
-
 	double f = 0;
-	for (int i = 0; i < dim; i++)
+
+	for (unsigned int i = 0; i < dim; i++)
 		for (int k = 0; k <= kmax; k++)
 			f += pow(a, k) * cos(2 * M_PI * pow(b, k) * (solution[i] + 0.5));
 
@@ -106,12 +115,12 @@ double weierstrass(std::vector<double> solution) {
 double Function::launchFunction(std::vector<double> X, unsigned int n)
 {
 	switch(n){
-		case 1 : return rosenbrock(X); break;
-		case 2 : return ackley(X); break;
-		case 3 : return schwefel(X); break;
-		case 4 : return rastrigin(X); break;
-		case 5 : return schaffer(X); break;
-		case 6 : return weierstrass(X); break;
+		case 1 : return Function::rosenbrock(X); break;
+		case 2 : return Function::ackley(X); break;
+		case 3 : return Function::schwefel(X); break;
+		case 4 : return Function::rastrigin(X); break;
+		case 5 : return Function::schaffer(X); break;
+		case 6 : return Function::weierstrass(X); break;
 		default: break;
 	}
 	return 0;

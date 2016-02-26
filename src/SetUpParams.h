@@ -7,7 +7,6 @@
 
 #ifndef SETUPPARAMS_H_
 #define SETUPPARAMS_H_
-#include <iostream>
 
 class SetUpParams
   {

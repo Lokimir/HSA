@@ -6,15 +6,17 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-#include <time.h>
+#include <cmath>
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
-#include <math.h>
+#include <vector>
 
 #include "MyAlgorithm.h"
 #include "Problem.h"
 #include "SetUpParams.h"
 #include "Solution.h"
+
 
 int main()
 {

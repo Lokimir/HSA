@@ -8,9 +8,7 @@
 #ifndef SOLUTION_H_
 #define SOLUTION_H_
 
-#include <iostream>
 #include <vector>
-
 #include "Problem.h"
 
 class Solution

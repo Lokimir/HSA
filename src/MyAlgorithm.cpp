@@ -8,10 +8,8 @@
 #include "MyAlgorithm.h"
 
 #include <cstdlib>
-#include <iterator>
 
 #include "SetUpParams.h"
-
 
 MyAlgorithm::MyAlgorithm(Problem& pbm,const SetUpParams& setup):
 _problem(pbm),
@@ -230,13 +228,13 @@ void MyAlgorithm::evolution()
 		delete sol;
 }
 
-std::vector<Solution*> createSolutionVector()
+std::vector<Solution*> MyAlgorithm::createSolutionVector()
 {
 	std::vector<Solution*> sol;
 	return sol;
 }
 
-std::vector<struct particle> createParticuleVector()
+std::vector<struct particle> MyAlgorithm::createParticuleVector()
 {
 	std::vector<struct particle> sol;
 	return sol;

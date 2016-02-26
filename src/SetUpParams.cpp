@@ -6,9 +6,6 @@
  */
 
 #include "SetUpParams.h"
-#include <iostream>
-
-
 
 SetUpParams::SetUpParams():
 _independent_runs(30), _nb_evolution_steps(2e6), _population_size(40), _solution_size(20)
