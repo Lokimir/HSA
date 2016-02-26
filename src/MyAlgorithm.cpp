@@ -8,14 +8,12 @@
 #include "MyAlgorithm.h"
 
 #include <cstdlib>
-#include <ctime>
 #include <iterator>
 
-#include "Function.h"
 #include "SetUpParams.h"
 
 
-MyAlgorithm::MyAlgorithm(const Problem& pbm,const SetUpParams& setup):
+MyAlgorithm::MyAlgorithm(Problem& pbm,const SetUpParams& setup):
 _problem(pbm),
 _fitness_values(createParticuleVector()),
 _setup(setup),
@@ -27,6 +25,10 @@ _solutions(createSolutionVector())
 
 MyAlgorithm::~MyAlgorithm()
 {
+	for(unsigned int i = 0; i < _setup.population_size() ; i++)
+	{
+		delete _solutions[i];
+	}
 }
 
 const SetUpParams& MyAlgorithm::setup() const
@@ -40,7 +42,7 @@ void MyAlgorithm::initialize() /* initialise 40 individus de 20 dimensions */
 	struct particle part;
 	_upper_cost = 0; _lower_cost = 0;
 
-	for(int j = 0; j<setup().population_size(); j++)
+	for(unsigned int j = 0; j<setup().population_size(); j++)
 	{
 		sol = new Solution(_problem);
 		sol->initialize();
@@ -49,22 +51,58 @@ void MyAlgorithm::initialize() /* initialise 40 individus de 20 dimensions */
 		part.index=j;
 		_fitness_values.insert(_fitness_values.begin()+j,part);
 	}
-	evaluate(part);
-	delete sol;
+	evaluate();
+}
+
+void MyAlgorithm::evaluate()
+{
+	double maxFitness = _fitness_values[0].fitness;
+	double minFitness = maxFitness;
+	int max =0;
+	int min =0;
+
+	for(unsigned int i = 0; i < _setup.population_size(); i++)
+	{
+		if(maxFitness < _solutions[i]->get_fitness())
+		{
+			maxFitness = _solutions[i]->get_fitness();
+			max = i;
+		}
+		if(minFitness > _solutions[i]->get_fitness())
+		{
+			minFitness = _solutions[i]->get_fitness();
+			min = i;
+		}
+	}
+	_upper_cost= max;
+	_lower_cost= min;
 }
 
 void MyAlgorithm::evaluate(struct particle& part)
 {
-	double maxFitness,minFitness;
+	double maxFitness, minFitness;
 
-	maxFitness = _solutions[_upper_cost]->get_fitness();
-	minFitness = _solutions[_lower_cost]->get_fitness();
+	maxFitness = best_cost();
+	minFitness = maxFitness;
+	int min = 0;
+
+	for(unsigned int i = 0 ; i < _setup.population_size() ; i++)
+	{
+		if((unsigned int)_fitness_values[i].index ==_lower_cost)
+			_fitness_values[i]= part;
+	}
 
 	if(maxFitness < part.fitness)
 		_upper_cost = part.index;
-	for(int i = 0; i < _setup.population_size(); i++)
-		if(minFitness > _solutions[i]->get_fitness())
-			_lower_cost= i;
+	for(unsigned int i = 0; i < _setup.population_size(); i++)
+	{
+		if(minFitness > _fitness_values[i].fitness)
+		{
+			minFitness = _fitness_values[i].fitness;
+			min = _fitness_values[i].index;
+		}
+	}
+	_lower_cost= min;
 }
 
 const std::vector<Solution*>& MyAlgorithm::solutions() const
@@ -99,38 +137,60 @@ double MyAlgorithm::fitness(const unsigned int index) const
 
 double MyAlgorithm::best_cost() const
 {
-	for(int i =0; i<_fitness_values.size();i++)
+	for(unsigned int i =0; i<_fitness_values.size();i++)
 	{
-		if(_fitness_values[i].index == _upper_cost)
+		if((unsigned int)_fitness_values[i].index == _upper_cost)
 			return _fitness_values[i].fitness;
 	}
+	throw ;
 }
 
 double MyAlgorithm::worst_cost() const
 {
-	for(int i =0; i<_fitness_values.size();i++)
+	for(unsigned int i =0; i<_fitness_values.size();i++)
 	{
-		if(_fitness_values[i].index == _lower_cost)
+		if((unsigned int)_fitness_values[i].index == _lower_cost)
 			return _fitness_values[i].fitness;
 	}
+	throw ;
 }
 
 Solution& MyAlgorithm::best_solution() const
 {
-	for(int i =0; i<_fitness_values.size();i++)
+	for(unsigned int i =0; i<_fitness_values.size();i++)
 	{
-		if(_fitness_values[i].index == _upper_cost)
+		if((unsigned int)_fitness_values[i].index == _upper_cost)
 			return *(_solutions[i]);
 	}
+	throw ;
 }
 
 Solution& MyAlgorithm::worst_solution() const
 {
-	for(int i =0; i<_fitness_values.size();i++)
+	for(unsigned int i =0; i<_fitness_values.size();i++)
 	{
-		if(_fitness_values[i].index == _lower_cost)
+		if((unsigned int)_fitness_values[i].index == _lower_cost)
 			return *(_solutions[i]);
 	}
+	throw ;
+}
+
+
+Solution& MyAlgorithm::average_solution() const
+{
+	double result;
+	Solution* sol = new Solution(_problem);
+	for(unsigned int j = 0; j < _setup.solution_size() ; j++)
+	{
+		result = 0;
+		for(unsigned int i = 0; i < _setup.population_size(); i++)
+		{
+			result+=solutions()[i]->getSolution()[j];
+		}
+		result/=_setup.population_size();
+		sol->position(j,result);
+	}
+	return *sol;
 }
 
 void MyAlgorithm::evolution()
@@ -142,10 +202,10 @@ void MyAlgorithm::evolution()
 	double tmp = 0;
 	struct particle part;
 
-	for(int j = 0 ; j < _setup.population_size(); j++)
+	for(unsigned int j = 0 ; j < _setup.population_size(); j++)
 	{
 		Solution* sol = new Solution(_problem);
-		for(int i = 0 ; i < _setup.solution_size(); i++)
+		for(unsigned int i = 0 ; i < _setup.solution_size(); i++)
 		{
 			if((double)rand()/RAND_MAX<=harmonyMem)
 			{
@@ -162,11 +222,14 @@ void MyAlgorithm::evolution()
 		}
 		if(worst_cost() < sol->fitness())
 		{
+			delete _solutions[_lower_cost];
 			_solutions[_lower_cost] = sol;
 			part.fitness = sol->get_fitness();
 			part.index = _lower_cost;
 			evaluate(part);
 		}
+		else
+			delete sol;
 	}
 }
 

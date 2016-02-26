@@ -23,17 +23,18 @@ class MyAlgorithm
 		std::vector<struct particle> _fitness_values;
 		const SetUpParams& _setup;
 		unsigned int _upper_cost,_lower_cost; // lower and upper fitness of individuals in population
-		const Problem& _problem;
+		Problem& _problem;
 
 	public:
-		MyAlgorithm(const Problem& pbm,const SetUpParams& setup);
+		MyAlgorithm(Problem& pbm,const SetUpParams& setup);
 		~MyAlgorithm();
 
 		const SetUpParams& setup() const;
 	  	void initialize();
 
 		// creates a array with fitness of all solutions in MyAlgorithm and its position in the MyAlgorithm
-        void evaluate(struct particle&);
+	  	void evaluate();
+	  	void evaluate(struct particle&);
 
 	 	const std::vector<Solution*>& solutions() const;
 		unsigned int upper_cost() const;
@@ -42,11 +43,11 @@ class MyAlgorithm
         std::vector<struct particle>&  fitness_values();
 		double fitness(const unsigned int) const;
 
-
 		double best_cost() const;
 		double worst_cost() const;
 		Solution& best_solution() const;
 		Solution& worst_solution() const;
+		Solution& average_solution() const;
 
 		void evolution(); /*makes an evolution step*/
   };

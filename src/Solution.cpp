@@ -13,7 +13,7 @@
 
 #include "Function.h"
 
-Solution::Solution(const Problem& pb):
+Solution::Solution(Problem& pb):
 _solution(createDoubleVector()), _current_fitness(0), _problem(pb)
 {
 }

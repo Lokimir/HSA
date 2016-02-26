@@ -17,7 +17,7 @@ class Solution
   {
 	//contient la declaration d'une solution
 	public:
-		Solution(const Problem&);
+		Solution(Problem&);
 		~Solution() {};
 
 		const Problem& pbm() const;
@@ -37,7 +37,7 @@ class Solution
 	private:
         std::vector<double> _solution;
         double _current_fitness;
-        const Problem& _problem;
+        Problem& _problem;
   };
 
 std::vector<double> createDoubleVector();

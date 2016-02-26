@@ -31,7 +31,7 @@ double ackley(std::vector<double> solution){
 	unsigned int dim= solution.size();
 	double sum1=0;
 	double sum2=0;
-	for(unsigned int i=1;i<=dim;i++)
+	for(unsigned int i=0;i<dim;i++)
 	{
 		double d=solution[i];
 		sum1=sum1+pow(d,carre);
@@ -46,7 +46,7 @@ double schwefel(std::vector<double> solution){
 
 	unsigned int dim= solution.size();
 	double sum1=0;
-	for(int i=1;i<=dim;i++)
+	for(int i=0;i<dim;i++)
 	{
 		double d=solution[i];
 		sum1=sum1+d*sin(sqrt(abs(d)));
@@ -55,6 +55,7 @@ double schwefel(std::vector<double> solution){
 	resultat=418.9829*dim-(sum1);
 	return resultat;
 }
+
 double rastrigin(std::vector<double> solution){
 
 	unsigned int dim= solution.size();
@@ -113,5 +114,6 @@ double Function::launchFunction(std::vector<double> X, unsigned int n)
 		case 6 : return weierstrass(X); break;
 		default: break;
 	}
+	return 0;
 }
 
