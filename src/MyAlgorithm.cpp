@@ -201,36 +201,33 @@ void MyAlgorithm::evolution()
 	const double limitMax = _problem.UpperLimit;
 	double tmp = 0;
 	struct particle part;
+	Solution* sol = new Solution(_problem);
 
-	for(unsigned int j = 0 ; j < _setup.population_size(); j++)
+	for(unsigned int i = 0 ; i < _setup.solution_size(); i++)
 	{
-		Solution* sol = new Solution(_problem);
-		for(unsigned int i = 0 ; i < _setup.solution_size(); i++)
+		if((double)rand()/RAND_MAX<=harmonyMem)
 		{
-			if((double)rand()/RAND_MAX<=harmonyMem)
+			sol->position(i,_solutions[(int)(39*((double)rand()/RAND_MAX))]->position(i));
+			if((double)rand()/RAND_MAX<=rate)
 			{
-				sol->position(i,_solutions[(int)(39*((double)rand()/RAND_MAX))]->position(i));
-				if((double)rand()/RAND_MAX<=rate)
-				{
-					tmp = sol->position(i)+(limitMax-limitMin)*0.005*
-							(-1+2*(double)rand()/RAND_MAX);
-					if(tmp<limitMax && tmp>limitMin) sol->position(i, tmp);
-				}
+				tmp = sol->position(i)+(limitMax-limitMin)*0.005*
+						(-1+2*(double)rand()/RAND_MAX);
+				if(tmp<limitMax && tmp>limitMin) sol->position(i, tmp);
 			}
-			else
-				sol->position(i,limitMin+(limitMax-limitMin)*(double)rand()/RAND_MAX);
-		}
-		if(worst_cost() < sol->fitness())
-		{
-			delete _solutions[_lower_cost];
-			_solutions[_lower_cost] = sol;
-			part.fitness = sol->get_fitness();
-			part.index = _lower_cost;
-			evaluate(part);
 		}
 		else
-			delete sol;
+			sol->position(i,limitMin+(limitMax-limitMin)*(double)rand()/RAND_MAX);
 	}
+	if(worst_cost() < sol->fitness())
+	{
+		delete _solutions[_lower_cost];
+		_solutions[_lower_cost] = sol;
+		part.fitness = sol->get_fitness();
+		part.index = _lower_cost;
+		evaluate(part);
+	}
+	else
+		delete sol;
 }
 
 std::vector<Solution*> createSolutionVector()

@@ -37,8 +37,8 @@ int main()
 	 */
 	while(nbStep < stp.nb_evolution_steps()){
 		algo.evolution();
-		nbStep+=40;
-		std::cout <<std::endl<< algo.best_solution().getSolution()[0];//nbStep;
+		nbStep++;
+		std::cout <<std::endl<< nbStep;
 	}
 
 	/**
