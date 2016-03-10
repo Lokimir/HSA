@@ -12,32 +12,27 @@
 #include "Problem.h"
 
 class Solution
-  {
-	//contient la declaration d'une solution
-	public:
-		Solution(Problem&);
-		~Solution() {};
+{
+public:
+	Solution(Problem&);
+	~Solution() {};
 
-		const Problem& pbm() const;
+	const Problem& getProblem() const;
+	double getFitness() const;
+	std::vector<double> getSolution() const;
+	double& getHarmony(const int);
 
-		void initialize();
-		double fitness();
-		double get_fitness();
+	void initialize();
+	void calculateFitness();
+	unsigned int size() const;
+	void insert(const int, const double);
+	std::vector<double> createDoubleVector();
 
-		unsigned int size() const;
+private:
+	std::vector<double> harmonies;
+	double fitness;
+	Problem& problem;
+};
 
-		std::vector<double>& solution();
-
-		double& position(const int); //retournera une position du tableau _solution
-        void  position(const int, const double);
-        std::vector<double> getSolution();
-
-	private:
-        std::vector<double> _solution;
-        double _current_fitness;
-        Problem& _problem;
-  };
-
-std::vector<double> createDoubleVector();
 
 #endif /* SOLUTION_H_ */

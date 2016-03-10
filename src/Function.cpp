@@ -8,13 +8,6 @@
 #include "Function.h"
 #include <cmath>
 
-Function::Function()
-{
-}
-
-Function::~Function() {
-}
-
 double Function::rosenbrock(std::vector<double> X)
 {
 	double sum=0;
@@ -46,6 +39,7 @@ double Function::ackley(std::vector<double> solution)
 	resultat = -20*exp(-0.2*sqrt(1.0/dim*sum1))-exp(1.0/dim*sum2)+20+exp(1.0);
 	return resultat;
 }
+
 double Function::schwefel(std::vector<double> solution)
 {
 	unsigned int dim = solution.size();
@@ -97,6 +91,7 @@ double Function::schaffer (std::vector<double> solution)
 	return resultat;
 
 }
+
 double Function::weierstrass(std::vector<double> solution)
 {
 	unsigned int dim = solution.size();
@@ -125,4 +120,3 @@ double Function::launchFunction(std::vector<double> X, unsigned int n)
 	}
 	return 0;
 }
-

@@ -24,12 +24,12 @@ public:
 	Problem(const Problem&);
 	~Problem(){};
 
-	int dimension() const;
+	int getSize() const;
 	int getIndexFunction() const;
 	void setIndexFunction(int);
 
 private:
-	int _dimension;
+	int size;
 	int indexFunction;
 };
 //=======================================================================

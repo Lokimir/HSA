@@ -9,26 +9,24 @@
 #define SETUPPARAMS_H_
 
 class SetUpParams
-  {
-  	//ici vous devez mettre quelques parametres tels que :
+{
+public:
+	SetUpParams();
+	~SetUpParams(){};
 
-	private:
-		unsigned int   _independent_runs;         //number of independent runs
-		unsigned int   _nb_evolution_steps;       // number of iterations per run
-		unsigned int   _population_size;		// number of solutions in the population
-		unsigned int   _solution_size;	        // size of each particle
+	const unsigned int getNbrRuns() const;
+	const unsigned int getNbrIterations() const;
+	const unsigned int getPopulationSize() const;
+	const unsigned int getSolutionSize() const;
+	void setNbrRuns(const unsigned int);
+	void setNbrIterations(const unsigned int);
+	void getPopulationSize(const unsigned int);
+	void setSolutionSize(const unsigned int);
 
-	public:
-		SetUpParams();
-		~SetUpParams(){};
-
-		const unsigned int   independent_runs() const;
-		const unsigned int   nb_evolution_steps() const;
-		const unsigned int   population_size() const;
-		const unsigned int   solution_size() const;
-		void independent_runs(const unsigned int);
-		void nb_evolution_steps(const unsigned int);
-		void population_size(const unsigned int);
-		void solution_size(const unsigned int);
-  };
+private:
+	unsigned int nbrRuns;
+	unsigned int nbrIterations;
+	unsigned int populationSize;
+	unsigned int solutionSize;
+};
 #endif /* SETUPPARAMS_H_ */

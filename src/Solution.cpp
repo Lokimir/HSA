@@ -13,61 +13,55 @@
 #include "Function.h"
 
 Solution::Solution(Problem& pb):
-_solution(createDoubleVector()), _current_fitness(0), _problem(pb)
+harmonies(createDoubleVector()), fitness(0), problem(pb)
 {
 }
 
-const Problem& Solution::pbm() const
+const Problem& Solution::getProblem() const
 {
-	return _problem;
+	return problem;
+}
+
+double Solution::getFitness() const
+{
+	return fitness;
+}
+
+std::vector<double> Solution::getSolution() const
+{
+	return harmonies;
+}
+
+double& Solution::getHarmony(const int index)
+{
+	return harmonies.at(index);
 }
 
 void Solution::initialize()
 {
-	for(int i = 0; i<_problem.dimension(); i++)
+	for(int i = 0; i<problem.getSize(); i++)
 	{
-		_solution.insert(_solution.begin()+i,_problem.LowerLimit + ((double)rand())/RAND_MAX * (_problem.UpperLimit-_problem.LowerLimit));
+		harmonies.insert(harmonies.begin()+i,problem.LowerLimit + ((double)rand())/RAND_MAX * (problem.UpperLimit-problem.LowerLimit));
 	}
-	fitness();
+	calculateFitness();
 }
 
-double Solution::fitness()
+void Solution::calculateFitness()
 {
-	_current_fitness = -Function::launchFunction(_solution, _problem.getIndexFunction());
-	return _current_fitness;
-}
-
-double Solution::get_fitness()
-{
-	return _current_fitness;
+	fitness = -Function::launchFunction(harmonies, problem.getIndexFunction());
 }
 
 unsigned int Solution::size() const
 {
-	return _solution.size();
+	return harmonies.size();
 }
 
-std::vector<double>& Solution::solution()
+void Solution::insert(const int index, const double value)
 {
-	return _solution;
+	harmonies.insert(harmonies.begin()+index, value);
 }
 
-double& Solution::position(const int index)
-{
-	return _solution.at(index);
-}
-
-void Solution::position(const int index, const double value)
-{
-	_solution.insert(_solution.begin()+index, value);
-}
-
-std::vector<double> Solution::getSolution()
-{
-	return _solution;
-}
-
-std::vector<double> createDoubleVector()
+std::vector<double> Solution::createDoubleVector()
 {
 	std::vector<double> sol;
 	return sol;

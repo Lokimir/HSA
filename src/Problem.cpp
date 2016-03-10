@@ -8,18 +8,18 @@
 #include "Problem.h"
 
 Problem::Problem(double lower, double upper,int index):
-_dimension(20), LowerLimit(lower), UpperLimit(upper),indexFunction(index)
+size(20), LowerLimit(lower), UpperLimit(upper),indexFunction(index)
 {
 }
 
 Problem::Problem(const Problem& prob):
-_dimension(prob._dimension), LowerLimit(prob.LowerLimit), UpperLimit(prob.UpperLimit),indexFunction(0)
+size(prob.size), LowerLimit(prob.LowerLimit), UpperLimit(prob.UpperLimit),indexFunction(0)
 {
 }
 
-int Problem::dimension() const
+int Problem::getSize() const
 {
-	return _dimension;
+	return size;
 }
 
 int Problem::getIndexFunction() const

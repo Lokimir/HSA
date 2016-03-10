@@ -12,216 +12,217 @@
 #include "SetUpParams.h"
 
 MyAlgorithm::MyAlgorithm(Problem& pbm,const SetUpParams& setup):
-_problem(pbm),
-_fitness_values(createParticuleVector()),
-_setup(setup),
-_upper_cost(0),
-_lower_cost(0),
-_solutions(createSolutionVector())
+problem(pbm),
+fitnesses(createParticuleVector()),
+setup(setup),
+upperFitnessIndex(0),
+lowerIndexFitness(0),
+solutions(createSolutionVector())
 {
 }
 
 MyAlgorithm::~MyAlgorithm()
 {
-	for(unsigned int i = 0; i < _setup.population_size() ; i++)
+	for(unsigned int i = 0; i < setup.getPopulationSize() ; i++)
 	{
-		delete _solutions[i];
+		delete solutions[i];
 	}
 }
 
-const SetUpParams& MyAlgorithm::setup() const
+const SetUpParams& MyAlgorithm::getSetup() const
 {
-	return _setup;
+	return setup;
 }
 
 void MyAlgorithm::initialize() /* initialise 40 individus de 20 dimensions */
 {
 	Solution* sol;
 	struct particle part;
-	_upper_cost = 0; _lower_cost = 0;
+	upperFitnessIndex = 0; lowerIndexFitness = 0;
 
-	for(unsigned int j = 0; j<setup().population_size(); j++)
+	for(unsigned int j = 0; j<getSetup().getPopulationSize(); j++)
 	{
-		sol = new Solution(_problem);
+		sol = new Solution(problem);
 		sol->initialize();
-		_solutions.insert(_solutions.begin()+j,sol);
-		part.fitness = sol->get_fitness();
+		solutions.insert(solutions.begin()+j,sol);
+		part.fitness = sol->getFitness();
 		part.index=j;
-		_fitness_values.insert(_fitness_values.begin()+j,part);
+		fitnesses.insert(fitnesses.begin()+j,part);
 	}
 	evaluate();
 }
 
 void MyAlgorithm::evaluate()
 {
-	double maxFitness = _fitness_values[0].fitness;
+	double maxFitness = fitnesses[0].fitness;
 	double minFitness = maxFitness;
 	int max =0;
 	int min =0;
 
-	for(unsigned int i = 0; i < _setup.population_size(); i++)
+	for(unsigned int i = 0; i < setup.getPopulationSize(); i++)
 	{
-		if(maxFitness < _solutions[i]->get_fitness())
+		if(maxFitness < solutions[i]->getFitness())
 		{
-			maxFitness = _solutions[i]->get_fitness();
+			maxFitness = solutions[i]->getFitness();
 			max = i;
 		}
-		if(minFitness > _solutions[i]->get_fitness())
+		if(minFitness > solutions[i]->getFitness())
 		{
-			minFitness = _solutions[i]->get_fitness();
+			minFitness = solutions[i]->getFitness();
 			min = i;
 		}
 	}
-	_upper_cost= max;
-	_lower_cost= min;
+	upperFitnessIndex= max;
+	lowerIndexFitness= min;
 }
 
 void MyAlgorithm::evaluate(struct particle& part)
 {
 	double maxFitness, minFitness;
 
-	maxFitness = best_cost();
+	maxFitness = getBestFitness();
 	minFitness = maxFitness;
 	int min = 0;
 
-	for(unsigned int i = 0 ; i < _setup.population_size() ; i++)
+	for(unsigned int i = 0 ; i < setup.getPopulationSize() ; i++)
 	{
-		if((unsigned int)_fitness_values[i].index ==_lower_cost)
-			_fitness_values[i]= part;
+		if((unsigned int)fitnesses[i].index ==lowerIndexFitness)
+			fitnesses[i]= part;
 	}
 
 	if(maxFitness < part.fitness)
-		_upper_cost = part.index;
-	for(unsigned int i = 0; i < _setup.population_size(); i++)
+		upperFitnessIndex = part.index;
+	for(unsigned int i = 0; i < setup.getPopulationSize(); i++)
 	{
-		if(minFitness > _fitness_values[i].fitness)
+		if(minFitness > fitnesses[i].fitness)
 		{
-			minFitness = _fitness_values[i].fitness;
-			min = _fitness_values[i].index;
+			minFitness = fitnesses[i].fitness;
+			min = fitnesses[i].index;
 		}
 	}
-	_lower_cost= min;
+	lowerIndexFitness= min;
 }
 
-const std::vector<Solution*>& MyAlgorithm::solutions() const
+const std::vector<Solution*>& MyAlgorithm::getSolutions() const
 {
-	return _solutions;
+	return solutions;
 }
 
-unsigned int MyAlgorithm::upper_cost() const
+unsigned int MyAlgorithm::getUpperFitnessIndex() const
 {
-	return _upper_cost;
+	return upperFitnessIndex;
 }
 
-unsigned int MyAlgorithm::lower_cost() const
+unsigned int MyAlgorithm::getLowerFitnessIndex() const
 {
-	return _lower_cost;
+	return lowerIndexFitness;
 }
 
-Solution& MyAlgorithm::solution(const unsigned int index) const
+Solution& MyAlgorithm::getSolution(const unsigned int index) const
 {
-	return *(_solutions[index]);
+	return *(solutions[index]);
 }
 
-std::vector<struct particle>&  MyAlgorithm::fitness_values()
+std::vector<struct particle>&  MyAlgorithm::getFitnesses()
 {
-	return _fitness_values;
+	return fitnesses;
 }
 
-double MyAlgorithm::fitness(const unsigned int index) const
+double MyAlgorithm::getFitness(const unsigned int index) const
 {
-	return _fitness_values[index].fitness;
+	return fitnesses[index].fitness;
 }
 
-double MyAlgorithm::best_cost() const
+double MyAlgorithm::getBestFitness() const
 {
-	for(unsigned int i =0; i<_fitness_values.size();i++)
+	for(unsigned int i =0; i<fitnesses.size();i++)
 	{
-		if((unsigned int)_fitness_values[i].index == _upper_cost)
-			return _fitness_values[i].fitness;
+		if((unsigned int)fitnesses[i].index == upperFitnessIndex)
+			return fitnesses[i].fitness;
 	}
 	throw ;
 }
 
-double MyAlgorithm::worst_cost() const
+double MyAlgorithm::getWorstFitness() const
 {
-	for(unsigned int i =0; i<_fitness_values.size();i++)
+	for(unsigned int i =0; i<fitnesses.size();i++)
 	{
-		if((unsigned int)_fitness_values[i].index == _lower_cost)
-			return _fitness_values[i].fitness;
+		if((unsigned int)fitnesses[i].index == lowerIndexFitness)
+			return fitnesses[i].fitness;
 	}
 	throw ;
 }
 
-Solution& MyAlgorithm::best_solution() const
+Solution& MyAlgorithm::getBestSolution() const
 {
-	for(unsigned int i =0; i<_fitness_values.size();i++)
+	for(unsigned int i =0; i<fitnesses.size();i++)
 	{
-		if((unsigned int)_fitness_values[i].index == _upper_cost)
-			return *(_solutions[i]);
+		if((unsigned int)fitnesses[i].index == upperFitnessIndex)
+			return *(solutions[i]);
 	}
 	throw ;
 }
 
-Solution& MyAlgorithm::worst_solution() const
+Solution& MyAlgorithm::getWorstSolution() const
 {
-	for(unsigned int i =0; i<_fitness_values.size();i++)
+	for(unsigned int i =0; i<fitnesses.size();i++)
 	{
-		if((unsigned int)_fitness_values[i].index == _lower_cost)
-			return *(_solutions[i]);
+		if((unsigned int)fitnesses[i].index == lowerIndexFitness)
+			return *(solutions[i]);
 	}
 	throw ;
 }
 
 
-Solution& MyAlgorithm::average_solution() const
+Solution& MyAlgorithm::calculateAverageSolution() const
 {
 	double result;
-	Solution* sol = new Solution(_problem);
-	for(unsigned int j = 0; j < _setup.solution_size() ; j++)
+	Solution* sol = new Solution(problem);
+	for(unsigned int j = 0; j < setup.getSolutionSize() ; j++)
 	{
 		result = 0;
-		for(unsigned int i = 0; i < _setup.population_size(); i++)
+		for(unsigned int i = 0; i < setup.getPopulationSize(); i++)
 		{
-			result+=solutions()[i]->getSolution()[j];
+			result+=getSolutions()[i]->getSolution()[j];
 		}
-		result/=_setup.population_size();
-		sol->position(j,result);
+		result/=setup.getPopulationSize();
+		sol->insert(j,result);
 	}
 	return *sol;
 }
 
-void MyAlgorithm::evolution()
+void MyAlgorithm::iterate()
 {
 	const double rate = 0.3;
 	const double harmonyMem= 0.9;
-	const double limitMin = _problem.LowerLimit;
-	const double limitMax = _problem.UpperLimit;
+	const double limitMin = problem.LowerLimit;
+	const double limitMax = problem.UpperLimit;
 	double tmp = 0;
 	struct particle part;
-	Solution* sol = new Solution(_problem);
+	Solution* sol = new Solution(problem);
 
-	for(unsigned int i = 0 ; i < _setup.solution_size(); i++)
+	for(unsigned int i = 0 ; i < setup.getSolutionSize(); i++)
 	{
 		if((double)rand()/RAND_MAX<=harmonyMem)
 		{
-			sol->position(i,_solutions[(int)(39*((double)rand()/RAND_MAX))]->position(i));
+			sol->insert(i,solutions[(int)(39*((double)rand()/RAND_MAX))]->getHarmony(i));
 			if((double)rand()/RAND_MAX<=rate)
 			{
-				tmp = sol->position(i)+(limitMax-limitMin)*0.005*
+				tmp = sol->getHarmony(i)+(limitMax-limitMin)*0.005*
 						(-1+2*(double)rand()/RAND_MAX);
-				if(tmp<limitMax && tmp>limitMin) sol->position(i, tmp);
+				if(tmp<limitMax && tmp>limitMin) sol->insert(i, tmp);
 			}
 		}
 		else
-			sol->position(i,limitMin+(limitMax-limitMin)*(double)rand()/RAND_MAX);
+			sol->insert(i,limitMin+(limitMax-limitMin)*(double)rand()/RAND_MAX);
 	}
-	if(worst_cost() < sol->fitness())
+	sol->calculateFitness();
+	if(getWorstFitness() < sol->getFitness())
 	{
-		delete _solutions[_lower_cost];
-		_solutions[_lower_cost] = sol;
-		part.fitness = sol->get_fitness();
-		part.index = _lower_cost;
+		delete solutions[lowerIndexFitness];
+		solutions[lowerIndexFitness] = sol;
+		part.fitness = sol->getFitness();
+		part.index = lowerIndexFitness;
 		evaluate(part);
 	}
 	else

@@ -17,39 +17,38 @@
 class MyAlgorithm
 {
 private:
-	std::vector<Solution*> _solutions;     // individuals in population
-	std::vector<struct particle> _fitness_values;
-	const SetUpParams& _setup;
-	unsigned int _upper_cost,_lower_cost; // lower and upper fitness of individuals in population
-	Problem& _problem;
+	std::vector<Solution*> solutions;     // individuals in population
+	std::vector<struct particle> fitnesses;
+	const SetUpParams& setup;
+	unsigned int upperFitnessIndex,lowerIndexFitness; // lower and upper fitness of individuals in population
+	Problem& problem;
 
 public:
 	MyAlgorithm(Problem& pbm,const SetUpParams& setup);
 	~MyAlgorithm();
 
-	const SetUpParams& setup() const;
+	const SetUpParams& getSetup() const;
 	void initialize();
 
 	// creates a array with fitness of all solutions in MyAlgorithm and its position in the MyAlgorithm
 	void evaluate();
 	void evaluate(struct particle&);
 
-	const std::vector<Solution*>& solutions() const;
-	unsigned int upper_cost() const;
-	unsigned int lower_cost() const;
-	Solution& solution(const unsigned int) const;
-	std::vector<struct particle>&  fitness_values();
-	double fitness(const unsigned int) const;
+	const std::vector<Solution*>& getSolutions() const;
+	unsigned int getUpperFitnessIndex() const;
+	unsigned int getLowerFitnessIndex() const;
+	Solution& getSolution(const unsigned int) const;
+	std::vector<struct particle>&  getFitnesses();
+	double getFitness(const unsigned int) const;
 
-	double best_cost() const;
-	double worst_cost() const;
-	Solution& best_solution() const;
-	Solution& worst_solution() const;
-	Solution& average_solution() const;
-	void evolution(); /*makes an evolution step*/
+	double getBestFitness() const;
+	double getWorstFitness() const;
+	Solution& getBestSolution() const;
+	Solution& getWorstSolution() const;
+	Solution& calculateAverageSolution() const;
+	void iterate();
 	std::vector<Solution*> createSolutionVector();
 	std::vector<struct particle> createParticuleVector();
 };
-
 
 #endif /* MYALGORITHM_H_ */

@@ -10,10 +10,11 @@
 
 #include <vector>
 
-class Function {
+class Function
+{
 public:
-	Function();
-	virtual ~Function();
+	Function() {};
+	virtual ~Function() {};
 
 	static double launchFunction(std::vector<double>, unsigned int);
 	static double rosenbrock(std::vector<double>);
