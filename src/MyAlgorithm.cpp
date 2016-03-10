@@ -193,8 +193,8 @@ Solution& MyAlgorithm::calculateAverageSolution() const
 
 void MyAlgorithm::iterate()
 {
-	const double rate = 0.3;
-	const double harmonyMem= 0.9;
+	const double par = 0.3;
+	const double hmcr= 0.9;
 	const double limitMin = problem.LowerLimit;
 	const double limitMax = problem.UpperLimit;
 	double tmp = 0;
@@ -203,10 +203,10 @@ void MyAlgorithm::iterate()
 
 	for(unsigned int i = 0 ; i < setup.getSolutionSize(); i++)
 	{
-		if((double)rand()/RAND_MAX<=harmonyMem)
+		if((double)rand()/RAND_MAX<=hmcr)
 		{
 			sol->insert(i,solutions[(int)(39*((double)rand()/RAND_MAX))]->getHarmony(i));
-			if((double)rand()/RAND_MAX<=rate)
+			if((double)rand()/RAND_MAX<=par)
 			{
 				tmp = sol->getHarmony(i)+(limitMax-limitMin)*0.005*
 						(-1+2*(double)rand()/RAND_MAX);

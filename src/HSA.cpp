@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 
+#include "Function.h"
 #include "MyAlgorithm.h"
 #include "Problem.h"
 #include "SetUpParams.h"
@@ -37,60 +38,30 @@ int main()
 	/**
 	 * Optimisation de la fonction cible
 	 */
+	std::cout << "Optimizing ...";
+	std::cout.flush();
 	while(nbStep < stp.getNbrIterations()){
 		algo.iterate();
 		nbStep++;
-		std::cout <<std::endl<< nbStep;
+		//std::cout <<std::endl<< nbStep;
 	}
-
+	std::cout << std::endl << "Optimization is done.";
 	/**
 	 * Affichage des resultats
 	 */
-	std::cout << std::endl << "Best fitness: " << algo.getBestFitness()<<std::endl;
 	double result=0;double ecart = 0;
-	for(int i = 0; i < 20; i++)
-	{
-		result+=algo.getBestSolution().getSolution()[i];
-		std :: cout << "|" << algo.getBestSolution().getSolution()[i];
-	}
-	for(int i = 0; i < 20; i++)
-	{
-		ecart+=pow(pow(result,2.0)-pow(algo.getBestSolution().getSolution()[i],2.0),2.0);
-	}
-	std::cout <<std::endl << "Average Best sol : "<<result/20;
-	std::cout <<std::endl << "Ecart type : " <<pow(ecart,0.5);
-	std::cout <<std::endl << algo.getWorstFitness()<<std::endl;
 
-	result = 0;ecart=0;
 	for(int i = 0; i < 20; i++)
-	{
-		result+=algo.getWorstSolution().getSolution()[i];
-		std :: cout << "|" << algo.getWorstSolution().getSolution()[i];
-	}
+		result+=algo.getFitness(i);
 	result/=20;
-	std::cout <<std::endl <<result;
 	for(int i = 0; i < 20; i++)
-	{
-		ecart+=pow(pow(result,2.0)-pow(algo.getWorstSolution().getSolution()[i],2.0),2.0);
-	}
-	std::cout <<std::endl <<pow(ecart,0.5);
+		ecart+=pow(result-algo.getFitness(i),2.0);
+	ecart = pow(ecart/20,0.5);
 
-	result = 0;ecart=0;
-	for(int j = 0; j < 40 ; j++)
-	{
-		for(int i = 0; i < 20; i++)
-		{
-			result+=algo.getSolutions()[j]->getSolution()[i];
-		}
-	}
-	std::cout <<std::endl <<result/800;
-	for(int j = 0; j < 40 ; j++)
-	{
-		for(int i = 0; i < 20; i++)
-		{
-			ecart+=pow(pow(result,2.0)-pow(algo.getSolutions()[j]->getSolution()[i],2.0),2.0);
-		}
-	}
-	std::cout <<std::endl <<pow(ecart,0.5);
+	std::cout << std::cout << std::endl << "Results : " << std::endl;
+	std::cout << std::endl << "Best fitness: " << algo.getBestFitness();
+	std::cout <<std::endl << "Average fitness : " <<result;
+	std::cout <<std::endl << "Worst fitness : "<< algo.getWorstFitness();
+	std::cout <<std::endl << "Standard deviation : " << ecart;
 	return 0;
 }
