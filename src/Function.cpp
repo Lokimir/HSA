@@ -15,7 +15,7 @@ double Function::rosenbrock(std::vector<double> X)
 
 	for (unsigned int i = 0; i < dimension-1; ++i)
 		sum += 100*pow(X[i+1]-X[i]*X[i], 2.0)+pow(X[i]-1, 2.0);
-
+	sum+= 100*pow(X[0]-X[dimension-1]*X[dimension-1], 2.0)+pow(X[dimension-1]-1, 2.0);
 	return sum;
 }
 

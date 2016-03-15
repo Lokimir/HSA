@@ -31,7 +31,7 @@ int main()
 	 * Initialisation des parametres, du probleme et de l'algorithme
 	 */
 	SetUpParams stp;
-	Problem p(-500,500,3);
+	Problem p(-100,100,5);
 	MyAlgorithm algo(p, stp);
 	algo.initialize();
 
@@ -59,9 +59,9 @@ int main()
 	ecart = pow(ecart/20,0.5);
 
 	std::cout << std::cout << std::endl << "Results : " << std::endl;
-	std::cout << std::endl << "Best fitness: " << algo.getBestFitness();
-	std::cout <<std::endl << "Average fitness : " <<result;
-	std::cout <<std::endl << "Worst fitness : "<< algo.getWorstFitness();
-	std::cout <<std::endl << "Standard deviation : " << ecart;
+	std::cout << std::endl <</* "Best fitness: " <<*/ algo.getBestFitness();
+	std::cout <<std::endl /*<< "Average fitness : " */<<result;
+	std::cout <<std::endl/* << "Worst fitness : "*/<< algo.getWorstFitness();
+	std::cout <<std::endl /*<< "Standard deviation : " */<< ecart;
 	return 0;
 }
