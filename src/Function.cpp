@@ -7,6 +7,7 @@
 
 #include "Function.h"
 #include <cmath>
+#include <stdlib.h>
 
 double Function::rosenbrock(std::vector<double> X)
 {
