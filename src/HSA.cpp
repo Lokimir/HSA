@@ -38,30 +38,26 @@ int main()
 	/**
 	 * Optimisation de la fonction cible
 	 */
-	std::cout << "Optimizing ...";
+	//std::cout << "Optimizing ...";
 	std::cout.flush();
 	while(nbStep < stp.getNbrIterations()){
 		algo.iterate();
 		nbStep++;
 		//std::cout <<std::endl<< nbStep;
 	}
-	std::cout << std::endl << "Optimization is done.";
+	//std::cout << std::endl << "Optimization is done.";
 	/**
 	 * Affichage des resultats
 	 */
 	double result=0;double ecart = 0;
 
-	for(int i = 0; i < 20; i++)
+	for(int i = 0; i < 40; i++)
 		result+=algo.getFitness(i);
-	result/=20;
-	for(int i = 0; i < 20; i++)
-		ecart+=pow(result-algo.getFitness(i),2.0);
-	ecart = pow(ecart/20,0.5);
+	result/=40;
 
-	std::cout << std::cout << std::endl << "Results : " << std::endl;
-	std::cout << std::endl <</* "Best fitness: " <<*/ algo.getBestFitness();
-	std::cout <<std::endl /*<< "Average fitness : " */<<result;
-	std::cout <<std::endl/* << "Worst fitness : "*/<< algo.getWorstFitness();
-	std::cout <<std::endl /*<< "Standard deviation : " */<< ecart;
+	//std::cout << std::cout << std::endl << "Results : " << std::endl;
+	std::cout << std::endl /*<< "Best fitness: " */<<-algo.getBestFitness()/20;
+	std::cout << /*std::endl << "Average fitness : " */"\t"<<-result/20;
+	std::cout << /*std::endl << "Worst fitness : "*/"\t"<< -algo.getWorstFitness()/20;
 	return 0;
 }
