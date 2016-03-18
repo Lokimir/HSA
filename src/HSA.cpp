@@ -31,7 +31,7 @@ int main()
 	 * Initialisation des parametres, du probleme et de l'algorithme
 	 */
 	SetUpParams stp;
-	Problem p(-100,100,5);
+	Problem p(-30,30,1);
 	MyAlgorithm algo(p, stp);
 	algo.initialize();
 
@@ -56,8 +56,8 @@ int main()
 	result/=40;
 
 	//std::cout << std::cout << std::endl << "Results : " << std::endl;
-	std::cout << std::endl /*<< "Best fitness: " */<<-algo.getBestFitness()/20;
-	std::cout << /*std::endl << "Average fitness : " */"\t"<<-result/20;
-	std::cout << /*std::endl << "Worst fitness : "*/"\t"<< -algo.getWorstFitness()/20;
+	std::cout << std::endl /*<< "Best fitness: " */<<-algo.getBestFitness();
+	std::cout << /*std::endl << "Average fitness : " */"\t"<<-result;
+	std::cout << /*std::endl << "Worst fitness : "*/"\t"<< -algo.getWorstFitness();
 	return 0;
 }
